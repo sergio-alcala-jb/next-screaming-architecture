@@ -1,36 +1,116 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next Screaming Architecture
 
-## Getting Started
+This repository uses a "screaming architecture" pattern: the folder structure is organized by feature and intent rather than by technical layer. The architecture is designed so that the codebase immediately screams what the application does.
 
-First, run the development server:
+## Core Concepts
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Feature modules** live under `modules/`.
+- **Reusable shared components** live under `shared/`.
+- **Routing and layout** are defined in `app/` using the Next.js App Router.
+- **Client-only UI logic** is isolated inside client components.
+- **Tests** are configured with Vitest in `src/test/`.
+
+## Project Layout
+
+```text
+app/
+  layout.tsx
+  flights/page.tsx
+  cart/
+  checkout/
+  confirmation/
+  seat-selection/
+modules/
+  flights/
+    constants.ts
+    hooks/
+    service/
+    store/
+    types/
+    ui/
+      components/
+      views/
+    utils/
+shared/
+  components/
+    header/
+    cb-booker/
+  constants/
+  hooks/
+  services/
+  types/
+src/
+  test/
+    setup.ts
+    components.test.tsx
+vitest.config.ts
+package.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Screaming Architecture Explained
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### `app/`
+The `app/` directory contains the Next.js routing and layout structure.
+- `app/layout.tsx` defines the root HTML structure and imports shared layout-level components like the header.
+- `app/flights/page.tsx` is the flight search page.
+- Other pages like `cart`, `checkout`, `confirmation`, and `seat-selection` are organized as route folders.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This keeps page entry points simple and server-rendered by default.
 
-## Learn More
+### `modules/`
+Each feature module encapsulates a specific domain. For example, `modules/flights/` contains:
+- `types/` for TypeScript interfaces and domain models.
+- `service/` for API calls and business logic.
+- `hooks/` for reusable state and behavior logic.
+- `ui/` for components and views used by the feature.
+- `utils/` for helper functions.
 
-To learn more about Next.js, take a look at the following resources:
+This structure makes each feature self-contained and easy to reason about.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### `shared/`
+The `shared/` folder stores generic building blocks that can be reused across multiple features.
+- `shared/components/header/` contains a header component used in the global layout.
+- `shared/components/cb-booker/` stores cross-cutting UI elements.
+- `shared/services/`, `shared/hooks/`, and `shared/types/` contain reusable utilities and types.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Client vs Server Components
+- Page-level files in `app/` are kept server components when possible.
+- Interactive UI and stateful behavior are moved into client components inside feature modules.
+- This keeps the overall page fast and the interactive parts isolated.
 
-## Deploy on Vercel
+## Example Component Flow
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+A typical feature flow looks like this:
+1. `app/flights/page.tsx` renders the flight search page.
+2. It imports `FlightsView` from `modules/flights/ui/views/flights-view.tsx`.
+3. `FlightsView` uses:
+   - `modules/flights/service/search-flights.ts` to fetch flight data
+   - `modules/flights/hooks/use-search-filter.ts` to manage filter state
+   - `modules/flights/ui/components/flight-filter.tsx` and `flight-card.tsx` for display
+4. `shared/components/header/header.tsx` is rendered in `app/layout.tsx` and appears on every page.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Testing with Vitest
+
+This project is configured for Vitest:
+- `vitest.config.ts` contains the test runner setup.
+- `src/test/setup.ts` configures the test environment and global matchers.
+- `src/test/components.test.tsx` contains dummy example tests.
+
+### Useful commands
+
+```bash
+npm test
+npm run test:run
+npm run test:ui
+npm run test:coverage
+```
+
+## Why This Pattern Works
+
+The screaming architecture encourages a structure that answers these questions quickly:
+- What feature is this code part of?
+- Where are the UI components for this feature?
+- Where is the business logic and data fetching?
+- Which parts are reusable across the app?
+
+By organizing folders by feature and keeping shared utilities separate, the repository is easier to navigate and scale.
