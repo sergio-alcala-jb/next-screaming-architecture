@@ -24,7 +24,7 @@ modules/
   flights/
     constants.ts
     hooks/
-    service/
+    services/
     store/
     types/
     ui/
@@ -93,8 +93,17 @@ A typical feature flow looks like this:
 
 This project is configured for Vitest:
 - `vitest.config.ts` contains the test runner setup.
-- `src/test/setup.ts` configures the test environment and global matchers.
-- `src/test/components.test.tsx` contains dummy example tests.
+
+### Test File Naming Convention
+
+Each file from different sections of a feature should have a corresponding test file with the same name ending in `.test.ts`:
+
+- `modules/flights/hooks/use-search-filter.ts` → `modules/flights/hooks/use-search-filter.test.ts`
+- `modules/flights/service/search-flights.service.ts` → `modules/flights/service/search-flights.service.test.ts`
+- `modules/flights/types/flight.type.ts` → `modules/flights/types/flight.type.test.ts`
+- `modules/flights/ui/views/flights-view.view.tsx` → `modules/flights/ui/views/flights-view.view.test.tsx`
+
+This keeps tests co-located with the code they test, making it easy to find and maintain test files.
 
 ### Useful commands
 
@@ -128,5 +137,17 @@ We strictly use `kebab-case` for all files and directories (e.g. `user-profile-h
 * **Case Sensitivity:** Avoids issues across different operating systems (Windows vs. Linux).
 * **Web Standard:** Aligns with URL structures and CSS class naming conventions.
 * **Readability:** Improves visual scanning in the file explorer.
+
+### File Type Naming Conventions
+
+In addition to `kebab-case`, we follow specific naming patterns for different file types:
+
+* **Hooks**: Start with `use-*` (e.g., `use-search-filter.ts`, `use-flight-data.ts`)
+* **Services**: End with `.service.ts` (e.g., `search-flights.service.ts`, `user-auth.service.ts`)
+* **Stores**: End with `.store.ts` (e.g., `flight-data.store.ts`, `cart-items.store.ts`)
+* **Types**: End with `.type.ts` (e.g., `flight.type.ts`, `user-profile.type.ts`)
+* **Views**: End with `.view.tsx` (e.g., `flights-view.view.tsx`, `checkout-view.view.tsx`)
+
+These conventions make it immediately clear what type of file you're working with and what its purpose is within the architecture.
 
 

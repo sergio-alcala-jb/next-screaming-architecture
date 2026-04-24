@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Flight, FlightFilter } from '../types/flight';
+import { Flight, FlightFilter } from '../types/flight.type';
 
 export function useSearchFilter(flights: Flight[]) {
     const [filters, setFilters] = useState<FlightFilter>({

@@ -1,7 +1,7 @@
 // Filter component - handles filter UI and communicates with parent
 'use client';
 
-import { FlightFilter } from '../../types/flight';
+import { FlightFilter } from '../../types/flight.type';
 
 interface FlightFilterProps {
     filters: FlightFilter;

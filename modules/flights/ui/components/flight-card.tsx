@@ -1,7 +1,7 @@
 // Presentational component - doesn't know about hooks or services
 'use client';
 
-import { Flight } from '../../types/flight';
+import { Flight } from '../../types/flight.type';
 
 interface FlightCardProps {
     flight: Flight;

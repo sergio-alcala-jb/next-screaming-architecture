@@ -1,5 +1,5 @@
 // Service layer - handles API calls and business logic
-import { Flight, SearchParams } from '../types/flight';
+import { Flight, SearchParams } from '../types/flight.type';
 
 export async function searchFlights(params: SearchParams): Promise<Flight[]> {
     // Mock API call

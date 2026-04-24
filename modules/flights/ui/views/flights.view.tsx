@@ -2,8 +2,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Flight, SearchParams } from '../../types/flight';
-import { searchFlights } from '../../services/search-flights';
+import { Flight, SearchParams } from '../../types/flight.type';
+import { searchFlights } from '../../services/search-flights.service';
 import { useSearchFilter } from '../../hooks/use-search-filter';
 import { FlightCard } from '../components/flight-card';
 import { FlightFilterComponent } from '../components/flight-filter';

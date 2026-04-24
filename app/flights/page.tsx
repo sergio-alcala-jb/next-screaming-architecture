@@ -1,7 +1,7 @@
 // How to use in a page - Next.js App Router
 
-import { SearchParams } from "@/modules/flights/types/flight";
-import { FlightsView } from "@/modules/flights/ui/views/flights-view";
+import { SearchParams } from "@/modules/flights/types/flight.type";
+import { FlightsView } from "@/modules/flights/ui/views/flights.view";
 
 export default function FlightsPage() {
     // Example search parameters (in real app, these would come from URL or user input)
