@@ -5,10 +5,10 @@ This repository uses a "screaming architecture" pattern: the folder structure is
 ## Core Concepts
 
 - **Feature modules** live under `modules/`.
-- **Reusable shared components** live under `shared/`.
+- **Reusable shared components and functions** live under `shared/`.
 - **Routing and layout** are defined in `app/` using the Next.js App Router.
 - **Client-only UI logic** is isolated inside client components.
-- **Tests** are configured with Vitest in `src/test/`.
+- **Tests** are configured with Vitest.
 
 ## Project Layout
 
@@ -58,12 +58,31 @@ The `app/` directory contains the Next.js routing and layout structure.
 This keeps page entry points simple and server-rendered by default.
 
 ### `modules/`
+
+A typical feature module can be structured like this: 
+
+```text
+modules/
+  flights/
+    hooks/
+    services/
+    store/
+    types/
+    ui/
+      components/
+      views/
+    utils/
+    constants.ts
+```
+
 Each feature module encapsulates a specific domain. For example, `modules/flights/` contains:
-- `types/` for TypeScript interfaces and domain models.
+- `types/` for TypeScript interfaces and domain models or DAOs.
 - `service/` for API calls and business logic.
 - `hooks/` for reusable state and behavior logic.
-- `ui/` for components and views used by the feature.
+- `ui/components` feature-specific component.
+- `ui/views` page-level or feature-level comosed view.
 - `utils/` for helper functions.
+- `store/` for state managment.
 
 This structure makes each feature self-contained and easy to reason about.
 
