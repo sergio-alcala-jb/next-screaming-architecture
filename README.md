@@ -100,6 +100,7 @@ This project is configured for Vitest:
 
 ```bash
 npm test
+
 npm run test:run
 npm run test:ui
 npm run test:coverage
@@ -113,4 +114,19 @@ The screaming architecture encourages a structure that answers these questions q
 - Where is the business logic and data fetching?
 - Which parts are reusable across the app?
 
-By organizing folders by feature and keeping shared utilities separate, the repository is easier to navigate and scale.
+## Architecture rules
+
+1.  **Strict Isolation:** A feature must never import from another feature's internal folders (`ui/components`, `hooks`, `server`). Use the `shared/` directory for common needs.
+2.  **Clean Routing:** Files inside `src/app/` (pages and layouts) should stay thin. They should delegate all UI and logic responsibilities to a feature's **View**.
+3.  **Promotion Rule:** If a component or hook is needed by more than two features, it should be "promoted" from the feature folder to the `src/shared/` directory.
+
+
+### Naming Convention: `kebab-case`
+
+We strictly use `kebab-case` for all files and directories (e.g. `user-profile-header.tsx`).
+
+* **Case Sensitivity:** Avoids issues across different operating systems (Windows vs. Linux).
+* **Web Standard:** Aligns with URL structures and CSS class naming conventions.
+* **Readability:** Improves visual scanning in the file explorer.
+
+

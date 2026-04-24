@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import { Flight, SearchParams } from '../../types/flight';
-import { searchFlights } from '../../service/search-flights';
+import { searchFlights } from '../../services/search-flights';
 import { useSearchFilter } from '../../hooks/use-search-filter';
 import { FlightCard } from '../components/flight-card';
 import { FlightFilterComponent } from '../components/flight-filter';
