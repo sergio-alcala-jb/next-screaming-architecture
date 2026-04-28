@@ -40,10 +40,6 @@ shared/
   hooks/
   services/
   types/
-src/
-  test/
-    setup.ts
-    components.test.tsx
 lib/
   analytics/
     analytics.ts
