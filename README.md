@@ -6,6 +6,7 @@ This repository uses a "screaming architecture" pattern: the folder structure is
 
 - **Feature modules** live under `modules/`.
 - **Reusable shared components and functions** live under `shared/`.
+- **Third-party integrations and infrastructure clients** live under `lib/`.
 - **Routing and layout** are defined in `app/` using the Next.js App Router.
 - **Client-only UI logic** is isolated inside client components.
 - **Tests** are configured with Vitest.
@@ -43,6 +44,11 @@ src/
   test/
     setup.ts
     components.test.tsx
+lib/
+  analytics/
+    analytics.ts
+  okta/
+    okta.ts
 vitest.config.ts
 package.json
 ```
@@ -91,6 +97,16 @@ The `shared/` folder stores generic building blocks that can be reused across mu
 - `shared/components/header/` contains a header component used in the global layout.
 - `shared/components/cb-booker/` stores cross-cutting UI elements.
 - `shared/services/`, `shared/hooks/`, and `shared/types/` contain reusable utilities and types.
+
+### `lib/`
+The `lib/` folder is reserved for **third-party integrations and infrastructure-level clients** that are not specific to any feature or domain. Unlike `shared/`, which holds reusable app-level building blocks, `lib/` wraps external systems and SDKs so the rest of the codebase never depends on them directly.
+
+### Example
+
+- `lib/analytics/` initialises the analytics provider and exposes typed `trackEvent` / `trackPageView` helpers. Swapping providers only requires changes here.
+- `lib/okta/` configures the Okta SDK and exposes auth utilities (`getAccessToken`, `signOut`). Authentication concerns are isolated from feature modules.
+
+**Rule:** nothing inside `modules/` or `shared/` should import directly from a third-party auth or analytics SDK. All such access must go through `lib/`.
 
 ### Client vs Server Components
 - Page-level files in `app/` are kept server components when possible.
